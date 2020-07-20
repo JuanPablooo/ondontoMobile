@@ -1,9 +1,8 @@
 package com.example.myapplication
 
-import android.content.Context
-import android.graphics.LinearGradient
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.adapter.DentistaRecyclerAdapter
 import com.example.myapplication.http.HttpHelper
@@ -11,7 +10,7 @@ import com.example.myapplication.util.SharedPreferToken
 import kotlinx.android.synthetic.main.activity_listar.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import javax.sql.DataSource
+
 
 class Listar : AppCompatActivity() {
     lateinit var dentistaRecyclerAdapter: DentistaRecyclerAdapter
@@ -21,7 +20,8 @@ class Listar : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var compartilha =  SharedPreferToken(this)
-//        compartilha =  SharedPreferToken(this)
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true); //Mostrar o botão
+        getSupportActionBar()?.setHomeButtonEnabled(true);
         inicializarRecyclerView(compartilha)
         setContentView(R.layout.activity_listar)
     }
@@ -37,5 +37,15 @@ class Listar : AppCompatActivity() {
             }
         }
 
+    }
+    override fun onBackPressed() { //Botão BACK padrão do android
+        startActivity(
+            Intent(
+                this,
+                MainActivity::class.java
+            )
+        ) //O efeito ao ser pressionado do botão (no caso abre a activity)
+        finishAffinity() //Método para matar a activity e não deixa-lá indexada na pilhagem
+        return
     }
 }

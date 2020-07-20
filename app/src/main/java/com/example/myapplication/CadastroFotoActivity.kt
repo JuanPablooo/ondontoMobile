@@ -46,14 +46,11 @@ class CadastroFotoActivity : AppCompatActivity(), View.OnClickListener  {
         println(imagem.base64)
         val gson = Gson()
         val imagemJson = gson.toJson(imagem)
-//        println(imagemJson)
 
         doAsync {
             var http = HttpHelper()
             var resposta = http.enviarImagem(imagemJson, dentista.id)
-            println("enviouuuu")
-            println(resposta.toString())
-
+            redirectToListagen()
         }
     }
 
@@ -70,5 +67,9 @@ class CadastroFotoActivity : AppCompatActivity(), View.OnClickListener  {
             imageFoto.setImageBitmap(bitmap)
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+    fun redirectToListagen(){
+        var intent = Intent(this, Listar::class.java)
+        startActivity(intent)
     }
 }
